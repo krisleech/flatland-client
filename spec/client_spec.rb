@@ -13,6 +13,6 @@ describe 'Flatland::Client' do
        with(body: expected_body, headers: expected_headers).
        to_return(status: 200)
 
-    client.do('spec/script/ci')
+    client.do('sleep 1')
   end
 end

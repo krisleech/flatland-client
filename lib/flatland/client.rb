@@ -10,16 +10,9 @@ module Flatland
     end
 
     def do(command)
-
       time { system(command) }
 
-      @exit_code = $?.exited? ? $?.exitstatus : nil
-
-      endpoint.post do |req|
-        req.url '/builds'
-        req.headers['Content-Type'] = 'application/json'
-        req.body = { duration: duration }.to_json
-      end
+      post duration: duration
     end
 
     private
@@ -28,7 +21,17 @@ module Flatland
       started_at = Time.now
       yield
       finished_at = Time.now
-      @duration = (finished_at - started_at).round(0)
+
+      @duration  = (finished_at - started_at).round(0)
+      @exit_code = $?.exited? ? $?.exitstatus : nil
+    end
+
+    def post(data)
+      endpoint.post do |req|
+        req.url '/builds'
+        req.headers['Content-Type'] = 'application/json'
+        req.body = data.to_json
+      end
     end
 
     def endpoint
@@ -36,7 +39,6 @@ module Flatland
         faraday.response :logger
         faraday.adapter  Faraday.default_adapter
       end
-
     end
   end
 end

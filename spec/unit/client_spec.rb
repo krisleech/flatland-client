@@ -8,8 +8,8 @@ module Flatland
 
     describe '#do' do
       it 'records duration of given command' do
-        subject.do('sleep 0.5')
-        expect(subject.duration).to eq(0.5)
+        subject.do('sleep 1')
+        expect(subject.duration).to eq(1)
       end
 
       it 'records exit code of given successful command' do
