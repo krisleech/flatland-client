@@ -16,7 +16,7 @@ Flatland::Client.configure do |config|
   config.endpoint 'http://example.com/builds'
 end
 
-Flatland::Client.time('rspec spec')
+Flatland::Client.do('rspec spec')
 ```
 
 ## Contributing
