@@ -4,14 +4,13 @@ require 'flatland/client'
 describe 'Flatland::Client' do
   it 'sends build details to endpoint' do
 
-    Flatland::Client.time('script/ci')
+    expected_body    = { duration: '101' }
+    expected_headers = { 'Content-Type' => 'application/json' }
 
-    expected_json = {
-      duration: '100'
-    }.to_json
+    stub_request(:post, "http://example.com/builds").
+       with(body: expected_body, headers: expected_headers).
+       to_return(status: 200)
 
-    stub = stub_request(:post, "www.example.com")
-
-    expect(stub).to have_been_requested
+    Flatland::Client.time('spec/script/ci')
   end
 end
